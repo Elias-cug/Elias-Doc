@@ -1,10 +1,10 @@
 ---
 home: true
-heroImage: /logo.png
-heroText: Welcome to help.
+heroImage: /logo.jpeg
+heroText: Front-End Notes.
 tagline: Born to win.
 actionText: 开始探索之旅 →
-actionLink: /javascript/基础
+actionLink: /javascript/base
 features:
 - title: 关于我
   details: 小景哥哥是一个爱好英语的程序员，有点小文艺，有点小年轻，希望和大家称为好朋友。
