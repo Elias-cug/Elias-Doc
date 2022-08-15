@@ -8,29 +8,31 @@ module.exports = {
     // 添加导航栏
     nav: [
       {
-        text: 'javascript',
-        ariaLabel: 'javascript',
+        text: '基础',
+        ariaLabel: '基础',
         items: [
-          {text: '基础知识点', link: '/javascript/base'}
-        ]
-      },
-      {
-        text: 'css',
-        ariaLabel: 'css',
-        items: [
-          {text: '基础知识点', link: '/css/base'}
+          {text: 'javascript', link: '/基础知识/javascript.md'},
+          {text: 'css', link: '/基础知识/css.md'},
+          {text: '网络', link: '/基础知识/网络.md'},
+          {text: '浏览器', link: '/基础知识/浏览器.md'},
+          {text: '后端', link: '/基础知识/后端.md'},
+          {text: '计算机', link: '/基础知识/计算机.md'},
+          {text: '图形学', link: '/基础知识/图形学.md'}
         ]
       }
     ],
     // 左侧边栏
     sidebar: {
-      '/javascript/': [
+      '/基础知识/': [
         '',
-        'base'
-      ],
-      '/css/': [
-        '',
-        'base'
+        'javascript',
+        'css',
+        '网络',
+        '浏览器',
+        '后端',
+        '计算机',
+        '图形学'
+        
       ]
     } 
   },

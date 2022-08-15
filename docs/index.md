@@ -4,7 +4,7 @@ heroImage: /logo.jpeg
 heroText: Front-End Notes.
 tagline: Born to win.
 actionText: 开始探索之旅 →
-actionLink: /javascript/base
+actionLink: /基础知识/
 features:
 - title: 关于我
   details: 骑车，读书，敲代码。
