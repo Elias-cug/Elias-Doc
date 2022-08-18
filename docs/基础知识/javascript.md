@@ -311,4 +311,128 @@ import('/modules/my-module.js')
 // 也可以用 await 语法
 let module = await import('/modules/my-module.js');
 ```
-18911023914
+
+## 原型链
+> 对象中特殊的内置属性，表示对其他对象的引用。一般用[[Prototype]]表示。
+
+#### 指定对象原型链的方式
+1. 创建时自动指定
+```js 
+const a = {}
+a.__proto__ === Object.prototype
+```
+
+2. 通过Object.create() 指定 
+```js
+const anotherObj = {
+  a: 'hello'
+}
+const obj = Object.create(anotherObj)
+obj.__proto__ === anotherObj
+```
+
+3. new 关键字指定
+```js 
+function Foo() {}
+const foo = new Foo()
+foo.__proto === Foo.prorotype
+```
+
+4. 通过 setPrototypeOf 指定 
+```js 
+const anotherObj = {}
+const obj = {}
+Object.setPrototypeOf(obj, anotherObj)
+obj.__proto__ === anotherObj
+```
+
+#### 判断对象原型链的方式
+1. instanceof
+```js 
+function Foo () {}
+const a = new Foo()
+
+a instanceof Foo // true
+```
+> instanceof回答的问题是 a 的整条[[Prototype]]链中是否有Foo.prototype指向的对象。这个方法只能处理对象和函数之间的关系，如果想判断两个对象之间是否通过[[Prototype]]链关联，只用instalceof无法实现。例如如下使用时不对的
+
+```js
+const a = {}
+const b = Object.create(a)
+a instanceof b // Error
+```
+
+2. isPrototypeOf 
+```js 
+const a = {}
+const b = Object.create(a)
+a.isPrototypeOf(b) //  true
+```
+
+#### constructor属性
+当使用构造函数时会有如下：
+```js
+function Foo() {}
+const foo = new Foo()
+foo.constructor === Foo // true
+Foo.prototype.constructor === Foo // true 
+```
+实际上，foo实例上的constructor属性，来自 Foo 构造函数的 prototype。 Foo.prototype的 .constructor属性是 Foo 函数声明时的默认属性。如果创建了一个新对象并替换了函数默认的.prototype对象引用，那么新对象并不会自动获得.constructor属性。如下：
+```js 
+function Foo() {}
+Foo.prototype = {}
+const foo = new Foo()
+foo.constructor === Foo // false 
+foo.constructor === Object // true  获取的是链顶端的Object.prototype
+```
+
+#### 一些例题
+1. 
+```js 
+function Fn(){
+    var n = 10
+    this.m = 20
+    this.aa = function() {
+        console.log(this.m)
+    }
+}
+Fn.prototype.bb = function () {
+    console.log(this.n)
+}
+var f1 = new Fn()
+Fn.prototype = {
+    aa: function(){
+        console.log(this.m + 10)
+    }
+}
+var f2 = new Fn()
+console.log(f1.constructor)    // Fn
+console.log(f2.constructor)    // Object
+f1.aa()   // 20
+f1.bb()   // undefined
+f1.__proto__ // {bb: fn()}
+f1.__proto__.aa() // Error
+f2.aa()   // 20 
+f2.bb() // Error
+f2.__proto__ // {aa: fn()}
+f2.__proto__.aa() // NaN 这里 this 指向 f2.__prototype__，f2.__prototype__上无属性 m。
+```
+2. 
+```js 
+var anotherObject = {
+  a: 2
+}
+var myObject = Object.create(anotherObj)
+anotherObj.a // 2
+myObject.a // 2
+
+anotherObj.hasOwnProperty('a') // true
+myObject.hasOwnProperty('a') // false 
+
+myObject.a++  // myObject.a = myObject.a + 1
+
+anotherObj.a // 2
+myObject.a // 3
+
+myObject.hasOwnProperty('a') // true
+```
