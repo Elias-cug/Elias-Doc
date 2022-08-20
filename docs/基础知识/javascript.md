@@ -246,6 +246,16 @@ b) 这个新对象会被执行[[prototype]]连接
 c) 这个新对象会绑定到函数调用的 this
 d) 如果函数没有返回其他对象，那么 new 表达式中的函数调用会自动返回这个新对象
 
+简单实现如下：
+```js 
+function _new(constructor, ...arg) {
+  let resultObj = {}
+  Object.setPrototypeOf(resultObj, constructor.prototype)
+  let result = constructor.call(resultObj, ...arg)
+  return type resultObj === 'Object' ? resultObj : result
+}
+```
+
 5. 优先级顺序
 new --> 显示绑定 --> 隐式绑定 --> 默认绑定
 
