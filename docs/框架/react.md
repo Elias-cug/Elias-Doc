@@ -465,4 +465,38 @@ render的时候首先会创建一个fiberRoot，创建一个workInProcess（正�
 将渲染工作分解为多个部分，对任务进行暂停和恢复操作以避免阻塞浏览器。这意味着React可以再提交之前多次调用渲染阶段生命周期的方法，或者在不提交的情况下调用他们
 整个scheduler的任务调度，时间切片，任务中断及恢复都依赖于concurent模式及Fiber数据结构
 
-## setState 
+## DIFF
+**单节点diff**
+- 判断是否有老的fiber节点 --》没有直接生成新fiber 
+- 判断key是否有相同  --》不同直接删除 再查找下一个老fiber 
+- 判断type是否相同  --》不同直接删除当前fiber在内的所有老的fiber --》生成新的fiber 
+- 删除剩下的其他老的fiber --》服用老fiber并返回
+
+**多节点diff**
+1. 第一轮遍历
+- 如果key不同则直接结束本轮循环
+- newChildren或oldFiber遍历完，结束本轮循环
+- key相同而type不同，标记老的oldFiber为删除，继续循环
+- key相同而type也相同，则可以服用老oldFiber节点，继续循环 
+
+2. 第二轮遍历
+- newChildren遍历完而oldFiber还有，遍历剩下所有的oldFiber标记为删除，DIFF结束
+- oldFiber遍历完，而newChildren还有，将剩下的newChildren标记为插入，DIFF结束
+- newChildren和oldFiber都没有完成，则进行节点移动的逻辑
+
+3. 第三轮
+- 处理节点移动的情况
+
+4. 例子
+老：A-->B-->C-->D-->E-->F 
+新：A-->C-->E-->B-->G-->D 
+- 第一轮比较A和A，相同可以复用，更新，然后比较B和C，key不同直接跳出第一个循环
+- 把剩下的oldFiber放入existingChildren这个map中
+- 然后声明一个lastPlacedIndex变量，表示不需要移动的老节点的索引，默认为0
+- 继续循环剩下的虚拟dom节点，从C开始
+- 如果能在map中找到相同key相同type的节点则可以复用老fiber，并把此fiber从map中删除
+- 如果在map中找不到相同key相同type的节点则创建新的fiber节点
+- 如果是复用老的fiber，则判断老fiber的索引是否小于lastPlacedIndex
+- 如果小于lastPlacedIndex则需要移动老fiber，lastPlacedIndex不变
+- 如果大雨lastPlacedIndex则不需要移动老fiber，更新lastPlaecdIndex为老fiber的index 
+- 虚拟DOM循环结束吧map中所有剩下的fiber全部标记为删除
