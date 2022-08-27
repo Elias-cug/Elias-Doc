@@ -1,31 +1,4 @@
 # javascript
-## 知识点罗列
-1. map 和 object 区别
-2. foreach为啥不能跳出循环
-3. let const var functioin
-4. esm 和 cmj 区别
-5. esnext新增加类型
-6. instanceof 原理
-7. 类型判断
-8. 介绍下 Set, Map, WeakSet, 和 WeakMap
-9. 三种判断数组类型的方法
-10. 全局作用域中，用 const 和 let 声明的变量不在 window 上，那到底在哪里？如何去获取
-11. es5/es6的继承除了写法以外还有什么区别
-12. 如何判断一个数据是 NaN
-13. JS 中常见的内存泄露
-14. 怎么监听 dom 元素出现在可见区域内
-15. 图片模糊加载
-16. 箭头函数和普通函数的区别
-17. 原始 ajax 怎么取消请求
-18. 🍎 requestAnimationFrame & requestIdleCallback
-19. [[prototype]]链
-20. Object.create原理
-21. this绑定
-22. 解构
-23. 严格模式
-24. 🍎 HTML5 file API加canvas实现图片前端JS压缩
-25. 怎么判断一个纯对象
-26. dynamic import
 
 ## JS 基础
 **1. map 和 object 区别**
@@ -40,6 +13,7 @@
 
 
 **2. foreach为啥不能跳出循环**
+
 回调函数里面不return不出去，break非法。
 
 **3. let const var functioin**
@@ -59,14 +33,24 @@
 2. BigInt --》Number 限制在$2^53 - 1$ --》任意大**整数**
 
 **6. instanceof 原理**
-1. case.__proto__ === Constructor.prototype
+1. `case.__proto__ === Constructor.prototype`
 2. 一直向上找
 
 **7. 类型判断**
 1. typeof --》null 和 function
-2. Object.prototype.toString.call()
+2. `Object.prototype.toString.call()`
 3. instanceof
-4. 🍎 NaN 判断
+4. NaN 判断
+```js 
+function _isNaN(val) {
+  if (val !== val) {
+      return true;
+  }
+  return false;
+}
+
+Object.is(c, NaN);    // 变量c是NaN的话会返回true
+```
 
 **8. 介绍下 Set, Map, WeakSet, 和 WeakMap**
 
@@ -116,15 +100,19 @@ const arr = [[e1, 'foo 元素'], [e2, 'bar 元素']]
 
 **9. 三种判断数组类型的方法**
 1. Object.prototype.toString.call()
-每一个继承 Object 的对象都有 toString 方法，如果 toString 发放没有重写的话，会返回[Object type]，其中 type 为对象的类型。但当除了 Object 类型的对象外，其他类型直接使用 toString 方法时，会直接返回都是内容的字符串，所以我们需要使用 call 或者 apply 方法来改变 toString 方法的执行上下文。该方法对于所有基本的类型数据都能进行判断，即使 null 和 undefined。
+
+每一个继承 Object 的对象都有 toString 方法，如果 toString 方法没有重写的话，会返回[Object type]，其中 type 为对象的类型。但当除了 Object 类型的对象外，其他类型直接使用 toString 方法时，会直接返回都是内容的字符串，所以我们需要使用 call 或者 apply 方法来改变 toString 方法的执行上下文。该方法对于所有基本的类型数据都能进行判断，即使 null 和 undefined。
 
 2. instanceof
+
 instanceof 的内部机制是通过判断对象的原型链中是不是能找到类型的 prorotype 。使用 instanceof 判断一个对象是否为数组，instanceof 会判断这个对象的原型链上是否会找到对应的 Array 的原型，找到返回true，否则返回 false。所有对象 instanceof 只能判断对象类型，原始类型不可以。并且所有对象类型 instanceof Object 都是 true
 
 3. Array.isArray()
+
 当检测 Array 实例时，Array.isArray 优于 instanceof，因为 Array.isArray 可以检测出 iframes.
 
 **10. 全局作用域中，用 const 和 let 声明的变量不在 window 上，那到底在哪里？如何去获取**
+
 在 es5 中，顶层对象的属性和全局变量是等价的， var 和 function 命令声明的全局变量，自然是顶层对象
 
 但 es6 规定，var 命令和 function 命令声明的全局变量，依然是顶层对象的属性，但 let 和 const 命令声明的变量，不属于顶层对象的属性。
@@ -143,6 +131,7 @@ instanceof 的内部机制是通过判断对象的原型链中是不是能找到
 6. 注意 super 关键字指代父类的实例，即父类的 this 对象，在子类构造器中，调用 super 后，才可使用 this 关键字，否则会报错
 
 **12. 如何判断一个数据是 NaN**
+
 NaN定义：非数字 `typeof NaN === 'number'` 
 1. 利用定义 
 ```js
@@ -187,16 +176,16 @@ io.disconnect()
 //1. 加载缩略图 2. new Image().src下载大图 3. 下载完成后将显示图片的地址更换
 ```
 **16. 箭头函数和普通函数的区别**
-1. 函数体内的 this 对象，就是定义时所在的对象，而不是适用时所在的对象
-2. 不可以适用 arguments 对象，该对象在函数体内不存在，如果要用可以用 rest 参数代替
-3. 不可以适用 yield 命令，因此箭头函数不能做 Generator 函数
+1. 箭头函数体内的 this 对象，就是定义时所在的对象，而不是使用时所在的对象
+2. 不可以使用 arguments 对象，该对象在函数体内不存在，如果要用可以用 rest 参数代替
+3. 不可以使用 yield 命令，因此箭头函数不能做 Generator 函数
 4. 不可以使用 new 命令，没有子集的this，无法调用 call apply。没有 prototype 属性
 
 **17. 原始 ajax 怎么取消请求**
 1. abort方法
 
 **18. requestAnimationFrame & requestIdleCallback**
-1. requestAnimationFrame 每一帧必定会执行不同，requestIdleCallback 是捡浏览器空闲来执行任务。
+1. requestAnimationFrame 每一帧必定会执行，requestIdleCallback 是浏览器空闲来执行任务。
 2. 假如浏览器一直处于非常忙碌的状态，requestIdleCallback 注册的任务有可能永远不会执行。此时可通过设置 timeout （见下面 API 介绍）来保证执行。
 3. 一些低优先级的任务可使用 requestIdleCallback 等浏览器不忙的时候来执行，同时因为时间有限，它所执行的任务应该尽量是能够量化，细分的微任务（micro task）。因为它发生在一帧的最后，此时页面布局已经完成，所以不建议在 requestIdleCallback 里再操作 DOM，这样会导致页面再次重绘。DOM 操作建议在 rAF 中进行。同时，操作 DOM 所需要的耗时是不确定的，因为会导致重新计算布局和视图的绘制，所以这类操作不具备可预测性。Promise 也不建议在这里面进行，因为 Promise 的回调属性 Event loop 中优先级较高的一种微任务，会在 requestIdleCallback 结束时立即执行，不管此时是否还有富余的时间，这样有很大可能会让一帧超过 16 ms。
 
@@ -252,7 +241,7 @@ function _new(constructor, ...arg) {
   let resultObj = {}
   Object.setPrototypeOf(resultObj, constructor.prototype)
   let result = constructor.call(resultObj, ...arg)
-  return type resultObj === 'Object' ? resultObj : result
+  return type result === 'Object' ? result : resultObj
 }
 ```
 
@@ -277,11 +266,15 @@ this指向当前函数所在作用域
 **24. HTML5 file API加canvas实现图片前端JS压缩**
 
 **25. 怎么判断一个纯对象**
+> 通过 `{}` 或者 `new Object`创建的对象
 ```js
+//1.
 function isPlainObject(obj) {
   if (typeof obj !== 'object' || obj === null) return false
 
+
   let proto = obj
+  // 这一步知识为了获取顶层的原型链，等同于 Object.prototype
   while (Object.getPrototypeOf(proto) !== null) {
     proto = Object.getPrototypeOf(proto)
   }
@@ -289,16 +282,19 @@ function isPlainObject(obj) {
   return Object.getPrototypeOf(obj) === proto
 }
 
-export function getObjectClassLabel(value: any): string {
+// 2.
+function getObjectClassLabel(value: any): string {
   return Object.prototype.toString.call(value)
 }
 
-export function isPlainObject(value: any): boolean {
+function isPlainObject(value: any): boolean {
   if (getObjectClassLabel(value) !== '[object Object]') {
     return false
   }
 
   const prototype = Object.getPrototypeOf(value)
+
+  // TODO: 原型链到null可以吗
   return prototype === null || prototype === Object.prototype
 }
 ```
