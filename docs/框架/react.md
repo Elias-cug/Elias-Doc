@@ -43,19 +43,11 @@ commit:
 2. componentDidUpdate
 3. componentWillUnmount
 
-## 使用
-1. 🍎 React 中 refs 的作用是什么
-2. 组件通信
-3. context 使用
-5. hook 下怎么使用 ShouldComponentUpdate
-6. PureComponent Component 区别
-7. 使用 React 的一些坑点
-8. React 中 setState 调用之后发生了什么，什么时候是同步的，什么时候是异步的
-9. react class 构建时，super(props)的作用。
+## React 中 refs 的作用是什么
+1. 获取子组件实例，操作子组件的一些方法
+2. 做持久化存储
 
-### React 中 refs 的作用是什么**
-
-### 组件通信
+## 组件通信
 
 1. 父子组件通信
    父组件通过向子组件传递 props
@@ -73,7 +65,7 @@ commit:
 
 5. 使用 redux 进行通信
 
-### context 使用
+## context 使用
 
 ```js
 // 1. 创建并导出 context 对象
@@ -84,37 +76,36 @@ export const { Provider, Consumer } = React.createContext({})
 // 3. hook下使用 useContext 获取要消费的状态
 ```
 
-**hook 下怎么使用 ShouldComponentUpdate**
-使用 useMemo React.memo
+## hook 下怎么使用 ShouldComponentUpdate
+使用React.memo包裹组件
 
-**🍎 PureComponent Component 区别**
+## react中函数组件与类组件的区别是什么
+1. 函数组件是一个纯函数，它接收一个props对象返回一个react元素；而类组件需要去继承React.Component并且创建render函数返回react元素
+2. 函数组件没有生命周期和状态state，而类组件有
 
-1. 几乎相同，但是 PureComponent 通过 prop 和 state 的浅比较来实现 shouldComponentUpdate。
+## PureComponent Component 区别
 
-**使用 React 的一些坑点**
+1. 几乎相同，但是 PureComponent 通过 prop 和 state 的浅比较来实现
 
+## 使用 React 的一些坑点
 1. JSX 做表达式判断时候需要强转为 boolean
 2. 尽量不要在 componentWillReviceProps 里使用 setState 如果一定要使用那么需要判断结束条件不然会出现无限重渲染导致页面崩溃
 3. 给组件添加 ref 时候尽量不要使用匿名函数因为当组件更新的时候匿名函数会被当做新的 prop 处理让 ref 属性接受到新函数的时候 react 内部会先清空 ref 也就是会以 null 为回调参数先执行一次 ref 这个 props 然后在以该组件的实例执行一次 ref 所以用匿名函数做 ref 的时候有的时候去 ref 赋值后的属性会取到 null
 4. 遍历子节点的时候不要用 index 作为组件的 key 进行传入
 
-**React 中 setState 调用之后发生了什么， 什么时候是同步的，什么时候是异步的**
-1. 在代码中调用 setState 函数之后，React会将传入的参数对象语组件当前的状态合并，然后触发调和过程。经调和过程吧，React 会以相对高效的方式根据新的状态构建 React 元素树并且着手重新渲染整个 UI 界面。在 React 得到元素树之后，React 会自动计算出新的树语老树的节点差异对界面进行最小化重渲染。在差异计算算法中，React 能够相对精确地知道哪些位置发生了改变以及应该如何改变，这就保证了按需更新，而不是全部重新渲染。如果在短时间内频繁setState，React 会将state的改变压入栈中，在合适的时机，批量更新state和视图，达到提高性能效果。
-
-1. 由 react 控制的事件处理程序，以及生命周期函数调用 setState 不会同步更新 state
-2. React 控制之外的事件调用 setState 是同步更新的。比如原生 js 绑定的事件，setTimeout/setInterval 等
-3. setState 并不是单纯的同步/异步，他的表现会因调用场景的不同而不同。在源码中，通过 isBatchingUpdates 来判断setState是先存进state队列还是直接更新。
-
-**9. react class 构建时，super(props)的作用**
+## react class 构建时，super(props)的作用
 为了使 子组件中可以使用 this.props 调用父组件传递的 props。
 
-## 原理
-1. setState是同步还是异步
-2. react 中 key 的作用是什么 
-3. 合成事件
-4. 渲染流程
+## 调用 setState 之后发生了什么
 
-### setState是同步还是异步
+1. 将要更新的 state 压入一个待更新队列（即内部实例的_pendingStateQueue）
+2. 执行入栈更新操作 enqueueUpdate, 判断是否处于批量更新状态
+3. 如若正处于更新，那么就先把实例推进 dirtyComponents 里等待下一次批量更新
+4. 如果没有批量更新正在执行，则会调用一个批量更新任务
+
+1. 在代码中调用 setState 函数之后，React会将传入的参数对象语组件当前的状态合并，然后触发调和过程。经调和过程吧，React 会以相对高效的方式根据新的状态构建 React 元素树并且着手重新渲染整个 UI 界面。在 React 得到元素树之后，React 会自动计算出新的树语老树的节点差异对界面进行最小化重渲染。在差异计算算法中，React 能够相对精确地知道哪些位置发生了改变以及应该如何改变，这就保证了按需更新，而不是全部重新渲染。如果在短时间内频繁setState，React 会将state的改变压入栈中，在合适的时机，批量更新state和视图，达到提高性能效果。
+
+## setState是同步还是异步
 **同步**
 1. 首先在legacy模式下
 2. 在执行上下问为空的时候去调用setState 
@@ -125,7 +116,13 @@ export const { Provider, Consumer } = React.createContext({})
 1. 如果是合成事件中的回调，executionContext !== DiscreteEventContext，所以不会进入，最终表现出异步
 2. concurrent模式下都为异步
 
-### react 中 key 的作用是什么
+## setState 与生命周期
+1. constructor 中不需要使用 state
+2. componentWillMount 中同步的无用，异步可用于获取页面的初始数据
+3. render shouldComponentUpdate 组件还没渲染结束就继续调用 setState 会无限触发更新
+4. 可以用 setState 的声明周期函数有，componentDidMount，componentWillReceiveProps（getDerivedStateFromProps），componentDidUpdate（注意死循环）
+
+## react 中 key 的作用是什么
 **单节点**
 1. key是单节点是否复用的第一判断条件（第二判断条件是type是否改变），如果key不同其他条件是完全不看的
 2. 在新建节点时，key随着element对象被传入fiber的构造函数
@@ -137,56 +134,7 @@ export const { Provider, Consumer } = React.createContext({})
 
 > 在react中key是服务于diff算法，它的默认值是null，在diff算法过程中，新旧节点是否可以复用，首先会判定key是否相同，其后才会进行其他条件的判定。在源码中针对多节点（即列表组件）如果直接将key设置成index和不设置任何值的处理方案是一样的，如果使用不当轻则造成性能损耗，重则引起状态混乱造成bug。
 
-**调用 setState 之后发生了什么**
-
-1. 将要更新的 state 压入一个待更新队列（即内部实例的_pendingStateQueue）
-2. 执行入栈更新操作 enqueueUpdate, 判断是否处于批量更新状态
-3. 如若正处于更新，那么就先把实例推进 dirtyComponents 里等待下一次批量更新
-4. 如果没有批量更新正在执行，则会调用一个批量更新任务
-
-**setState 与生命周期**
-
-1. constructor 中不需要使用 state
-2. componentWillMount 中同步的无用，异步可用于获取页面的初始数据
-3. render shouldComponentUpdate 组件还没渲染结束就继续调用 setState 会无限触发更新
-4. 可以用 setState 的声明周期函数有，componentDidMount，componentWillReceiveProps（getDerivedStateFromProps），componentDidUpdate（注意死循环）
-
-**react diff 原理**
-
-1. 把树形结构按照层级分解，只比较同级元素。
-2. 给列表结构的每个单元添加唯一的 key 属性，方便比较。
-3. React 只会匹配相同 class 的 component（这里面的 class 指的是组件的名字）
-4. 合并操作，调用 component 的 setState 方法的时候, React 将其标记为 dirty.到每一个事件循环结束, React 检查所有标记 dirty 的 component 重新绘制.
-5. 选择性子树渲染。开发人员可以重写 shouldComponentUpdate 提高 diff 的性能。
-
-**diff 策略**
-
-1. web ui 中 dom 节点跨层级的移动操作较少，可以忽略不记 --》tree diff
-2. 拥有相同类的两个组件会生成相似的树形结构，拥有不同类的两个组件会生成不同的树形结构 --》component diff
-3. 对同一层级的一组子节点，他们可以通过唯一 id 区分 --》element diff
-
-**tree diff**
-
-1. 对树进行分层比较，俩颗树只会对同一层次的节点进行比较
-2. 若发现节点已经不存在，则该节点及其子节点会被完全删除掉
-
-**component diff**
-
-1. 如果同一类型的组件，按照原策略继续比较 virtual dom tree
-2. 如果不是，则将该组件判断为 dirty component，从而替换整个组件下的所有子节点
-3. 对于同一类组件，有可能其 virtual dom tree 没有任何变化，如果能够确切的知道这点可以节省很多的 diff 时间，可以使用 shouldComponentUpdate 来判断该数组是否需要进行 diff
-
-**element diff**
-当节点处于同一层级时，react diff 提供了三种节点操作，分别为 insert move remove
-
-1. insert，新的 component 类型不在老集合里，既是全新的节点，需要对节点进行插入操作
-2. move，在老集合里有新 component 类型，且 element 时可更新类型，generateComponentChildren 已调用 receiveComponent 这种情况下 prevChild = nextChild ，就需要做移动操作，可以复用以前的 dom 节点
-3. remove，老 component 类型，在新集合里也有，但对应的 element 不同则不能直接复用和更新，需要执行删除操作，或老 component 不在新集合里也需要删除
-
-针对第二种情况，react 的优化策略是：允许开发者对同一层级的同组子节点，添加唯一 key 进行区分
-
-
-**概述下 React 中的事件处理逻辑**
+## 概述下 React 中的事件处理逻辑
 为了解决跨浏览器兼容性问题 React 会将浏览器原生事件 Browser Native Event 封装为合成事件 SyntheticEvent 传入设置的事件处理器中。这里的合成事件提供了与原生事件相同的接口不过它们屏蔽了底层浏览器的细节差异保证了行为的一致性。另外有意思的是 React 并没有直接将事件附着到子元素上而是以单一事件监听器的方式将所有的事件发送到顶层进行处理。这样 React 在更新 DOM 的时候就不需要考虑如何去处理附着在 DOM 上的事件监听器最终达到优化性能的目的
 
 区别：
@@ -200,7 +148,6 @@ export const { Provider, Consumer } = React.createContext({})
 4. 事件的执行顺序为原生事件线执行，合成事件后执行，合成事件会冒泡绑定到 document 上，所以尽量避免合成事件与原生事件混用，如果原生事件阻止冒泡，可能会导致合成事件不执行，因为需要冒泡到 document 上合成事件才会执行。
 react 怎么做事件代理，原理是啥
 1. react 基于 virtual dom 实现了一个 syntheticEvent 层（合成事件层），定义的事件处理器会接受到一个合成事件对象的实例，它符合 w3c 标准，且与原生的浏览器事件拥有同样的借口，支持冒泡机制，所有事件都会绑定到最外层上。
-
 
 ## hook相关
 **写过什么 hooks吗**
@@ -346,6 +293,42 @@ while(node !== null) {
 }
 ```
 
+## DIFF
+**单节点diff**
+- 判断是否有老的fiber节点 --》没有直接生成新fiber 
+- 判断key是否有相同  --》不同直接删除 再查找下一个老fiber 
+- 判断type是否相同  --》不同直接删除当前fiber在内的所有老的fiber --》生成新的fiber 
+- 删除剩下的其他老的fiber --》服用老fiber并返回
+
+**多节点diff**
+1. 第一轮遍历
+- 如果key不同则直接结束本轮循环
+- newChildren或oldFiber遍历完，结束本轮循环
+- key相同而type不同，标记老的oldFiber为删除，继续循环
+- key相同而type也相同，则可以服用老oldFiber节点，继续循环 
+
+2. 第二轮遍历
+- newChildren遍历完而oldFiber还有，遍历剩下所有的oldFiber标记为删除，DIFF结束
+- oldFiber遍历完，而newChildren还有，将剩下的newChildren标记为插入，DIFF结束
+- newChildren和oldFiber都没有完成，则进行节点移动的逻辑
+
+3. 第三轮
+- 处理节点移动的情况
+
+4. 例子
+老：A-->B-->C-->D-->E-->F 
+新：A-->C-->E-->B-->G-->D 
+- 第一轮比较A和A，相同可以复用，更新，然后比较B和C，key不同直接跳出第一个循环
+- 把剩下的oldFiber放入existingChildren这个map中
+- 然后声明一个lastPlacedIndex变量，表示不需要移动的老节点的索引，默认为0
+- 继续循环剩下的虚拟dom节点，从C开始
+- 如果能在map中找到相同key相同type的节点则可以复用老fiber，并把此fiber从map中删除
+- 如果在map中找不到相同key相同type的节点则创建新的fiber节点
+- 如果是复用老的fiber，则判断老fiber的索引是否小于lastPlacedIndex
+- 如果小于lastPlacedIndex则需要移动老fiber，lastPlacedIndex不变
+- 如果大雨lastPlacedIndex则不需要移动老fiber，更新lastPlaecdIndex为老fiber的index 
+- 虚拟DOM循环结束吧map中所有剩下的fiber全部标记为删除
+
 ## ReactDOM.render(element, container, callback) 流程
 
 1. 创建 react root 
@@ -465,38 +448,4 @@ render的时候首先会创建一个fiberRoot，创建一个workInProcess（正�
 将渲染工作分解为多个部分，对任务进行暂停和恢复操作以避免阻塞浏览器。这意味着React可以再提交之前多次调用渲染阶段生命周期的方法，或者在不提交的情况下调用他们
 整个scheduler的任务调度，时间切片，任务中断及恢复都依赖于concurent模式及Fiber数据结构
 
-## DIFF
-**单节点diff**
-- 判断是否有老的fiber节点 --》没有直接生成新fiber 
-- 判断key是否有相同  --》不同直接删除 再查找下一个老fiber 
-- 判断type是否相同  --》不同直接删除当前fiber在内的所有老的fiber --》生成新的fiber 
-- 删除剩下的其他老的fiber --》服用老fiber并返回
 
-**多节点diff**
-1. 第一轮遍历
-- 如果key不同则直接结束本轮循环
-- newChildren或oldFiber遍历完，结束本轮循环
-- key相同而type不同，标记老的oldFiber为删除，继续循环
-- key相同而type也相同，则可以服用老oldFiber节点，继续循环 
-
-2. 第二轮遍历
-- newChildren遍历完而oldFiber还有，遍历剩下所有的oldFiber标记为删除，DIFF结束
-- oldFiber遍历完，而newChildren还有，将剩下的newChildren标记为插入，DIFF结束
-- newChildren和oldFiber都没有完成，则进行节点移动的逻辑
-
-3. 第三轮
-- 处理节点移动的情况
-
-4. 例子
-老：A-->B-->C-->D-->E-->F 
-新：A-->C-->E-->B-->G-->D 
-- 第一轮比较A和A，相同可以复用，更新，然后比较B和C，key不同直接跳出第一个循环
-- 把剩下的oldFiber放入existingChildren这个map中
-- 然后声明一个lastPlacedIndex变量，表示不需要移动的老节点的索引，默认为0
-- 继续循环剩下的虚拟dom节点，从C开始
-- 如果能在map中找到相同key相同type的节点则可以复用老fiber，并把此fiber从map中删除
-- 如果在map中找不到相同key相同type的节点则创建新的fiber节点
-- 如果是复用老的fiber，则判断老fiber的索引是否小于lastPlacedIndex
-- 如果小于lastPlacedIndex则需要移动老fiber，lastPlacedIndex不变
-- 如果大雨lastPlacedIndex则不需要移动老fiber，更新lastPlaecdIndex为老fiber的index 
-- 虚拟DOM循环结束吧map中所有剩下的fiber全部标记为删除
