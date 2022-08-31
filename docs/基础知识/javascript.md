@@ -442,3 +442,104 @@ myObject.a // 3
 
 myObject.hasOwnProperty('a') // true
 ```
+
+## PromiseA+规范
+
+### 术语
+1. promise：有then方法的对象或函数
+2. thenable: 是一个有then方法的对象或函数
+3. value: promise状态成功时的值，resolve(value), 可以时任意类型
+4. reason: promise状态失败时的值，reject(reason)
+5. exception: 使用throw抛出的异常
+
+### 规范
+
+**promise的状态都有哪些**
+1. pending
+  - 初始状态，可改变
+  - 在resolve和reject前都处于这个状态
+  - 通过resolve -》fulfilled状态
+  - 通过reject --》rejected状态
+2. fulfillled
+  - 最终态，不可变
+  - 一个promise被resolve之后会变成这个状态
+  - 必须有一个value值
+
+3. rejected
+  - 最终态，不可变
+  - 一个promise被reject之后会变成这个状态
+  - 必须有一个reason值
+
+### then 
+promsie应该提供一个then方法，用来访问最终的结果，无论是value还是reason 
+```js 
+promise.then(onFulfilled, onRejected)
+```
+
+**参数规范**
+1. onFulfilled必须时函数类型，如果传入的不是函数，应该被忽略
+2. onRejected必须时函数类型，如果传入的不是函数，应该被忽略
+
+**onFulfilled**
+1. 在promise变成fulfilled时，应该调用onFulfilled, 参数是value 
+2. 在promise变成fulfilled之前，不应该调用 onFulfilled 
+3. 只能被调用一次
+
+**onRejected特性**
+1. 在promise变成rejected时，应该调用onFulfilled, 参数是reason
+2. 在promise变成rejected之前，不应该调用 onRejected
+3. 只能被调用一次
+
+**onFulfilled和onRejected应该是微任务阶段执行**
+1. 实现promise的时候，如何去生成微任务
+
+**then方法可以被调用多次**
+1. promise状态变成fulfiled后，所有的onFulfilled回调都需要按照注册的顺序执行，也可以理解为按照.then的顺序执行
+2. promise状态变成rejected后，所有的onRejected回调都需要按照注册的顺序执行，也可以理解为按照.then的顺序执行
+
+**返回值**
+
+then应该返回一个promise
+
+```js 
+const p2 = promise.then(onFulfilled, onRejected)
+```
+
+1. onFulfilled 或 onRejected 执行结果为X，调用resolvePromise 
+2. onFulfilled 或 onRejected 执行过程中抛出了异常e，promise2需要被reject。
+3. 如果 onFulfilled 不是一个函数，promise2 以 promise1 的value触发fulfilled
+4. 如果 onRejected 不是一个函数，promise2 以 promise1 的reason触发fulfilled 
+
+**resolvePromise**
+```js 
+resolvePromise(promise2, x, resolve, reject)
+```
+1. 如果promise2和x相等，reject typeError 
+2. 如果x是一个promise 
+  - 如果x pending，promise必须要在pending状态，直到x的状态变更
+  - 如果x fulfilled，value -》fulfilled 
+  - 如果x rejected，reason -》rejected 
+3. 如果x是一个Object / Function 
+  - 去获取const then = x.then，reject reason 
+  - then是一个函数，then.call(x, resolvePromiseFn, rejectPromiseFn)
+
+###  一步步实现一个 Promsie
+
+1. `const promise = new Promise()`， 代表Promise应该是一个构造函数或者class。
+2. 定义三种状态
+3. 初始化一个状态
+4. 实现resolve，reject方法
+  - 这两个方法要更改status，从pending变成fulfilled/rejected；
+  - 入参分别为value / reason 
+5. 对于实例化promise时的入参处理
+  - 入参是一个函数，接收resolve，reject两个参数
+  - 初始化promise的时候，就要同步执行这个函数，并且有任何的报错都要通过reject抛出去
+6. then方法 
+  - then接收两个参数，onFulfilled和onRejected
+  ```js
+  promise.then(onFulfilled, onRejected)
+  ```
+  - 检查参数是不是函数
+  - 根据当前promise的状态调用不同的函数
+  - 首先我们拿到所有的回调，新建两个数组，分别存储成功和失败的回调，调用then的时候，如果还是pending就存入数组
+  - 在status改变的时候，执行回调
