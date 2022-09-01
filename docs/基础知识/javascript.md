@@ -548,3 +548,9 @@ resolvePromise(promise2, x, resolve, reject)
   - 根据当前promise的状态调用不同的函数
   - 首先我们拿到所有的回调，新建两个数组，分别存储成功和失败的回调，调用then的时候，如果还是pending就存入数组
   - 在status改变的时候，执行回调
+7. then的返回值
+  - 如果onFulfilled或者onRejected抛出一个异常e，那么新的promise必须reject e；
+  - 返回值应该是一个promise 
+  - 如果onFulfilled不是函数，且promise1成功执行，promise2必须返回同样的状态和value
+  - 如果onRejected不是函数，且promise1拒绝执行，promise2必须返回同样的状态和reason
+  - 如果onFulfilled或者onRejected返回一个x，执行resolvePromise
