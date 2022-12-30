@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const execSync = require('child_process').execSync
-execSync('cd ./docs/.vuepress/dist')
+execSync('yarn docs:build')
+execSync('cd .\\docs\\.vuepress\\dist\\')
 execSync('git init')
 execSync('git add -A')
 execSync('git commit -m "deploy"')
