@@ -26,7 +26,8 @@ module.exports = {
         ariaLabel: '框架',
         items: [
           {text: 'Webpack', link: '/框架/webpack.md'},
-          {text: 'React', link: '/框架/react.md'}
+          {text: 'React', link: '/框架/react.md'},
+          {text: '单体仓库', link: '/框架/单体仓库.md'}
         ]
       }
     ],
@@ -46,7 +47,8 @@ module.exports = {
       ],
       '/框架/': [
         'webpack',
-        'react'
+        'react',
+        '单体仓库'
       ]
     } 
   },
