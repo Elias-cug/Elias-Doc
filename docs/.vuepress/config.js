@@ -18,7 +18,8 @@ module.exports = {
           {text: 'Git', link: '/基础知识/Git.md'},
           {text: '后端', link: '/基础知识/后端.md'},
           {text: '计算机', link: '/基础知识/计算机.md'},
-          {text: '图形学', link: '/基础知识/图形学.md'}
+          {text: '图形学', link: '/基础知识/图形学.md'},
+          {text: '常用命令', link: '/基础知识/常用命令.md'},
         ]
       },
       {
@@ -42,8 +43,8 @@ module.exports = {
         'Git',
         '后端',
         '计算机',
-        '图形学'
-        
+        '图形学',
+        '常用命令'
       ],
       '/框架/': [
         'webpack',
