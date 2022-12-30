@@ -158,3 +158,91 @@ div {
 6. 混合器：声明@mixin 引入@include
 7. 混合器传参
 8. 函数：@function
+
+## 其他
+1. background-size 
+```css
+background-size：contain; // 缩小图片来适应元素的尺寸（保持像素的长宽比），是图片宽高最长的那个边覆盖元素一边即可；
+background-size ：cover; // 扩展图片来填满元素（保持像素的长宽比），是图片宽高最短的那个边覆盖元素一边即可；
+background-size ：100px 100px; // 调整图片到指定大小；
+background-size ：50% 100%; // 调整图片到指定大小，百分比相对于包含元素的尺寸（并且并不需要包含元素显示设置宽高）
+```
+2. 有全背景的页面布局方案
+- background-size：设置cover 
+- height: 100vh
+- 设置overflow: auto
+- 内部元素设置固定宽高，保证交互元素友好展示
+- 根据屏幕分辨率使用@media根据实际情况再做调整
+
+3. 使用`import { css } from '@emotion/react'`可以做mixin，如下：
+```js
+const handleIcon = css`
+  .handle-icon {
+    ${tw`absolute flex items-center`};
+    top: -34px;
+    right: 20px;
+    img {
+      width: 12px;
+      height: 12px;
+      margin-left: 6px;
+    }
+  }
+`
+const Select = styled.div`
+  ${handleIcon}
+`
+```
+4. z-index失效，添加如下代码
+```js 
+posiiton: relative;
+```
+
+5. 字体渐变色
+```css
+{
+  background: linear-gradient(to bottom, #DF94FF, #D167FF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+```
+
+6. nth-child 
+```css
+nth-child(odd){
+  /* 奇数个 */
+}
+nth-child(enev){
+  /* 偶数个 */
+}
+
+nth-child(-m+n) {
+  /* 选择前 m 个 */
+}
+
+nth-child(m+n) {
+  /* 选择后 m 个 */
+}
+
+```
+
+7. css选择器
+  - > 子元素（不包括后代元素）
+  - & 父级元素 
+
+8. 小程序不识别 * 号选择器
+
+9. box-shadow: inset 0 0 15px 0 rgba(50,84,252,0.39);
+
+10. border-image: linear-gradient(to right, #3AF2FF,  #41B4FF, #014D92) 1;
+
+11. before after 是标签内内容的前后，非标签前后
+
+12. 做渐变border
+```js 
+ackground-clip
+background-origin
+background-image
+```
+
+13. text-align失效：配合justity-end justify-start使用
