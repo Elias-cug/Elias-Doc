@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 const execSync = require('child_process').execSync
+const execPath = `${__dirname}\\docs\\.vuepress\\dist\\`
+console.log('执行目录：', execPath)
 execSync('yarn docs:build')
-execSync('cd .\\docs\\.vuepress\\dist\\')
-execSync('git init')
-execSync('git add -A')
-execSync('git commit -m "deploy"')
-execSync('git push -f git@github.com:Elias-cug/elias-cug.github.io.git master')
+execSync('mkdir age', {cwd: execPath})
+execSync('git init', {cwd: execPath})
+execSync('git add -A', {cwd: execPath})
+execSync('git commit -m "deploy"', {cwd: execPath})
+execSync('git push -f git@github.com:Elias-cug/elias-cug.github.io.git master', {cwd: execPath})
+console.log('发布完成：', execPath)
