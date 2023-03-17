@@ -19,7 +19,8 @@ module.exports = {
           {text: '计算机', link: '/基础知识/计算机.md'},
           {text: '图形学', link: '/基础知识/图形学.md'},
           {text: '常用命令', link: '/基础知识/常用命令.md'},
-          {text: 'TypeScript', link: '/基础知识/typescript.md'}
+          {text: 'TypeScript', link: '/基础知识/typescript.md'},
+          {text: '工具函数', link: '/基础知识/工具函数.md'},
         ]
       },
       {
@@ -44,7 +45,8 @@ module.exports = {
         '计算机',
         '图形学',
         '常用命令',
-        'typescript'
+        'typescript',
+        '工具函数'
       ],
       '/框架/': [
         'webpack',
