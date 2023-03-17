@@ -1,7 +1,9 @@
 module.exports = {
   base: '/',
   port: 8080,
-  head: [],
+  head: [
+    ['link', { rel: 'icon', href: '/logo.jpeg' }]
+  ],
   plugins: [],
   title: 'Elias Notes | Front-End Notes',
   themeConfig: {
