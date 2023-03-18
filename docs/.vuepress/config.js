@@ -23,6 +23,7 @@ module.exports = {
           {text: '常用命令', link: '/基础知识/常用命令.md'},
           {text: 'TypeScript', link: '/基础知识/typescript.md'},
           {text: '工具函数', link: '/基础知识/工具函数.md'},
+          {text: 'APIJSON', link: '/基础知识/APIJSON.md'},
         ]
       },
       {
@@ -48,7 +49,8 @@ module.exports = {
         '图形学',
         '常用命令',
         'typescript',
-        '工具函数'
+        '工具函数',
+        'APIJSON'
       ],
       '/框架/': [
         'webpack',
