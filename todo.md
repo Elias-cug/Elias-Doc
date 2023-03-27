@@ -21,7 +21,3 @@
 
 .right-side { flex-grow: 1; }
 
-# linux 版本查看
-# linux 开放权限
-  - 使某一用户有root权限
-  - 开放某一文件的读写权限

@@ -123,6 +123,9 @@ div {
 }
 ```
 
+> 注意
+1. 可使用 `flex-shrink: 0` 来防止字体所占宽度被挤压导致换行问题
+
 ## 媒体查询相关
 1. viewport
   - width=device-width 
