@@ -32,7 +32,8 @@ module.exports = {
         items: [
           {text: 'Webpack', link: '/框架/webpack.md'},
           {text: 'React', link: '/框架/react.md'},
-          {text: '单体仓库', link: '/框架/单体仓库.md'}
+          {text: '单体仓库', link: '/框架/单体仓库.md'},
+          {text: 'VUE', link: './框架/VUE.md'}
         ]
       }
     ],
@@ -56,6 +57,7 @@ module.exports = {
         'webpack',
         'react',
         '单体仓库',
+        'VUE'
       ]
     } 
   },
