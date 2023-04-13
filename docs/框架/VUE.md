@@ -75,3 +75,27 @@ data() {
 
 <div v-bind="objectOfAttrs"></div>
 ```
+
+6. 闭合标签
+vue中之所以能使用自闭合标签是因为 Vue 的模板解析器支持任意标签使用 `/>`作为标签关闭的标志。而在dom模板中必须显示的写出关闭标签，这是因为 HTML 只允许一小部分特殊的元素省略其关闭标签，最常见的就是 `<input>` 和 `<img>`
+
+7. ref 用在 v-for 上不能保证与原数组顺序相同
+
+8. watch
+  - flush: 'post'
+  - immediate: true 
+  - watchEffect
+
+9. defineProps(['title'])
+
+10. $emit
+- defineEmits(['enlarge-text'])
+```vue
+<!-- BlogPost.vue, 省略了 <script> -->
+<template>
+  <div class="blog-post">
+    <h4>{{ title }}</h4>
+    <button @click="$emit('enlarge-text')">Enlarge text</button>
+  </div>
+</template>
+```
