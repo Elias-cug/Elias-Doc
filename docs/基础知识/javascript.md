@@ -554,3 +554,17 @@ resolvePromise(promise2, x, resolve, reject)
   - 如果onFulfilled不是函数，且promise1成功执行，promise2必须返回同样的状态和value
   - 如果onRejected不是函数，且promise1拒绝执行，promise2必须返回同样的状态和reason
   - 如果onFulfilled或者onRejected返回一个x，执行resolvePromise
+
+
+## nodejs
+
+### 文件相关
+1. path.join()
+
+2. path.resolve()
+
+3. __dirname
+获得当前执行文件所在目录的完整目录名
+
+4. process.cwd()
+获得当前执行node命令时候的文件夹目录名
