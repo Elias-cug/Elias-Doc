@@ -4,7 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Elias Notes",
   description: "Front-End Notes",
-  base: "/",
+  base: "/le-note/",
   lang: "zh-CN",
 
   // 头部标签
